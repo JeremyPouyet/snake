@@ -1,16 +1,4 @@
-
-//
-// amazing.hh for tp in /home/pouyet_j/test
-//
-// Made by Jérémy POUYET
-// Login   <pouyet_j@epitech.net>
-//
-// Started on  Sat Mar 15 14:22:43 2014 Jérémy POUYET
-// Last update Sun Apr  6 16:11:10 2014 Jérémy POUYET
-//
-
-#ifndef NCURSES_HH_
-# define NCURSES_HH_
+#pragma once
 
 #include <iostream>
 #include <ncurses.h>
@@ -56,5 +44,3 @@ private:
   int	height;
   int	width;
 };
-
-#endif

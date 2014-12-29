@@ -1,13 +1,3 @@
-//
-// game.cpp for snake in /home/pouyet_j/test
-//
-// Made by Jérémy POUYET
-// Login   <pouyet_j@epitech.net>
-//
-// Started on  Mon Mar 17 14:58:26 2014 Jérémy POUYET
-// Last update Sun Apr  6 15:59:17 2014 jerome campeaux
-//
-
 #include "Game.hh"
 
 static game::move          aod[] =

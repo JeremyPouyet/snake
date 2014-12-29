@@ -1,15 +1,4 @@
-//
-// super.hh for tp in /home/pouyet_j/test
-//
-// Made by Jérémy POUYET
-// Login   <pouyet_j@epitech.net>
-//
-// Started on  Sat Mar 15 13:53:00 2014 Jérémy POUYET
-// Last update Sun Apr  6 16:09:58 2014 Jérémy POUYET
-//
-
-#ifndef SDL_HH_
-# define SDL_HH_
+#pragma once
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
@@ -59,5 +48,3 @@ private:
   std::map<int, game::keys>	key_map;
 
 };
-
-#endif

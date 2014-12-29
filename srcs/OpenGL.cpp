@@ -1,13 +1,3 @@
-//
-// super_amazing.cpp for super.c in /home/pouyet_j/test
-//
-// Made by Jérémy POUYET
-// Login   <pouyet_j@epitech.net>
-//
-// Started on  Fri Mar 14 16:32:41 2014 Jérémy POUYET
-// Last update Sun Apr  6 17:07:51 2014 jerome campeaux
-//
-
 #include "OpenGL.hh"
 
 static OpenGLModule::t_color	a_colors[] =
@@ -180,7 +170,7 @@ int                   OpenGLModule::dispScore(const int &eaten_fruits)
 {
   if (eaten_fruits > this->fruits_eaten)
     std::cout << "Score : " << eaten_fruits * 10 << std::endl;
-  this->fruits_eaten = eaten_fruits; 
+  this->fruits_eaten = eaten_fruits;
   return (0);
 }
 

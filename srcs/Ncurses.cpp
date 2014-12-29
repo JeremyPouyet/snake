@@ -1,13 +1,3 @@
-//
-// amazing.cpp for super.c in /home/pouyet_j/test
-//
-// Made by Jérémy POUYET
-// Login   <pouyet_j@epitech.net>
-//
-// Started on  Fri Mar 14 16:32:41 2014 Jérémy POUYET
-// Last update Sun Apr  6 16:20:15 2014 Jérémy POUYET
-//
-
 #include "Ncurses.hh"
 
 extern "C" IDisplayModule	*entry_point()

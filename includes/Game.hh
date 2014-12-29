@@ -1,15 +1,4 @@
-//
-// game.hh for snake in /home/pouyet_j/test
-//
-// Made by Jérémy POUYET
-// Login   <pouyet_j@epitech.net>
-//
-// Started on  Mon Mar 17 14:52:28 2014 Jérémy POUYET
-// Last update Sun Apr  6 15:59:02 2014 jerome campeaux
-//
-
-#ifndef _GAME_HH_
-#define _GAME_HH_
+#pragma once
 
 #include <sstream>
 #include <string>
@@ -106,5 +95,3 @@ namespace	game
     int			speed;
   };
 }
-
-#endif

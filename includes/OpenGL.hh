@@ -1,15 +1,4 @@
-//
-// super_amazing.hh for tp in /home/pouyet_j/test
-//
-// Made by Jérémy POUYET
-// Login   <pouyet_j@epitech.net>
-//
-// Started on  Sat Mar 15 15:08:53 2014 Jérémy POUYET
-// Last update Sun Apr  6 17:06:36 2014 jerome campeaux
-//
-
-#ifndef OPENGL_HH_
-# define OPENGL_HH_
+#pragma once
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
@@ -74,5 +63,3 @@ private:
   void	DrawMap(const double &width, const double &height);
 
 };
-
-#endif

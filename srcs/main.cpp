@@ -1,13 +1,3 @@
-//
-// main.cpp for tp in /home/pouyet_j/test
-//
-// Made by Jérémy POUYET
-// Login   <pouyet_j@epitech.net>
-//
-// Started on  Sat Mar 15 16:03:59 2014 Jérémy POUYET
-// Last update Sun Apr  6 16:01:43 2014 Jérémy POUYET
-//
-
 #include <iostream>
 #include <string>
 #include <ctime>

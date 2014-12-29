@@ -1,15 +1,4 @@
-//
-// IDisplayModule.hh for tp in /home/pouyet_j/test
-//
-// Made by Jérémy POUYET
-// Login   <pouyet_j@epitech.net>
-//
-// Started on  Sat Mar 15 13:49:59 2014 Jérémy POUYET
-// Last update Sun Apr  6 15:58:26 2014 jerome campeaux
-//
-
-#ifndef	IDISPLAYMODULE_HH_
-# define IDISPLAYMODULE_HH_
+#pragma once
 
 #include <utility>
 #include <list>
@@ -36,5 +25,3 @@ public:
   virtual int			getX() const = 0;
   virtual int			getY() const = 0;
 };
-
-#endif

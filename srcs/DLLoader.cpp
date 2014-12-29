@@ -1,13 +1,3 @@
-//
-// DLLoader.cpp for tp in /home/pouyet_j/test
-//
-// Made by Jérémy POUYET
-// Login   <pouyet_j@epitech.net>
-//
-// Started on  Sat Mar 15 15:37:14 2014 Jérémy POUYET
-// Last update Sun Apr  6 09:41:18 2014 Jérémy POUYET
-//
-
 #include "DLLoader.hh"
 
 DLLoader::DLLoader() : entry_point(NULL)

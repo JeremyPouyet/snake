@@ -1,15 +1,4 @@
-//
-// LibSwitcher.hh for nibbler in /home/pouyet_j/rendu/cpp_nibbler
-//
-// Made by Jérémy POUYET
-// Login   <pouyet_j@epitech.net>
-//
-// Started on  Sat Apr  5 12:53:55 2014 Jérémy POUYET
-// Last update Sat Apr  5 14:13:24 2014 Jérémy POUYET
-//
-
-#ifndef LIBSWITCHER_HH_
-# define LIBSWITCHER_HH_
+#pragma once
 
 #include <string>
 #include <list>
@@ -31,5 +20,3 @@ private:
 
   void	init_libs();
 };
-
-#endif

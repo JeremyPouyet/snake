@@ -1,13 +1,3 @@
-//
-// LibSwitcher.cpp for nibbler in /home/pouyet_j/rendu/cpp_nibbler
-//
-// Made by Jérémy POUYET
-// Login   <pouyet_j@epitech.net>
-//
-// Started on  Sat Apr  5 12:55:53 2014 Jérémy POUYET
-// Last update Sun Apr  6 14:43:25 2014 Jérémy POUYET
-//
-
 #include "LibSwitcher.hh"
 
 LibSwitcher::LibSwitcher()
