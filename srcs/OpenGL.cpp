@@ -31,12 +31,12 @@ void	OpenGLModule::init_colors()
 
 bool    OpenGLModule::init(int x, int y)
 {
+  if (SDL_Init(SDL_INIT_VIDEO) == -1)
+    return false;
   _x = x;
   _y = y;
   init_colors();
   init_keys();
-  if (SDL_Init(SDL_INIT_VIDEO) == -1)
-    return false;
   if (!SDL_SetVideoMode(_x * X_SQUARE, _y * Y_SQUARE, 32, SDL_OPENGL))
     return false;
   SDL_WM_SetCaption("Ca c'est le nibbler de popol", NULL);

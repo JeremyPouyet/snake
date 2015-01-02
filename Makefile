@@ -52,7 +52,7 @@ LDFLAGS		= -shared
 
 LSDL		= -lSDL -lSDL_image -lSDL_ttf
 LNCURSES	= -lncurses
-LOPENGL		= -lGL -lGLU
+LOPENGL		= -lGL -lGLU -lSDL
 LIBDL		= -ldl
 
 EXTERN_LIBS	= $(LSDL) $(LNCURSES) $(LOPENGL)
