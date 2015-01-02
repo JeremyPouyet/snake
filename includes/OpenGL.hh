@@ -12,7 +12,7 @@
 #define X_SQUARE 40
 #define Y_SQUARE 40
 
-class OpenGLModule : public IDisplayModule
+class OpenGLModule : public ADisplayModule
 {
 public:
 
@@ -36,7 +36,6 @@ public:
 
   OpenGLModule();
   ~OpenGLModule() {}
-  std::string const &	getName() const;
   bool			init(int x, int y);
   game::keys		play();
   void			refresh(const pos_list &snake, const pos &fruit, const pos_list &walls, int eaten_fruits, game::direction dir);
@@ -44,12 +43,8 @@ public:
   int                   dispScore(int eaten_fruits);
   int			end_screen();
   bool			stop();
-  int			getX() const;
-  int			getY() const;
 private:
 
-  int _x;
-  int _y;
   std::string			_name;
   SDL_Surface			*_game_over;
   SDL_Surface			*_screen;

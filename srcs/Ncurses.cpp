@@ -6,15 +6,8 @@ extern "C" IDisplayModule	*entry_point()
 }
 
 NcursesModule::NcursesModule() :
-  _name("lib_nibbler_Ncurses.so")
-{
-
-}
-
-std::string const & NcursesModule::getName() const
-{
-  return _name;
-}
+  ADisplayModule("lib_nibbler_Ncurses.so")
+{ }
 
 bool		NcursesModule::init(int x, int y)
 {
@@ -194,14 +187,4 @@ int	NcursesModule::end_screen()
     if (delwin(_menu) == ERR)
       return 0;
   return 0;
-}
-
-int	NcursesModule::getX() const
-{
-  return _x;
-}
-
-int	NcursesModule::getY() const
-{
-  return _y;
 }

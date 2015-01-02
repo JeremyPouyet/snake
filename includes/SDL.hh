@@ -11,22 +11,18 @@
 #define Y_SPRITE 40
 #define	X_SPRITE 40
 
-class SdlModule : public IDisplayModule
+class SdlModule : public ADisplayModule
 {
 public:
   SdlModule();
   ~SdlModule() {}
-  std::string const &	getName() const;
-  bool			init(int x, int y);
-  bool			stop();
-  void			refresh(const pos_list &snake, const pos &fruit, const pos_list &walls, int eaten_fruits, game::direction dir);
-  void			pause();
-  int			end_screen();
-  game::keys		play();
-  int			dispScore(int eaten_fruits);
-
-  int			getX() const;
-  int			getY() const;
+  bool		init(int x, int y);
+  bool		stop();
+  void		refresh(const pos_list &snake, const pos &fruit, const pos_list &walls, int eaten_fruits, game::direction dir);
+  void		pause();
+  int		end_screen();
+  game::keys	play();
+  int		dispScore(int eaten_fruits);
 
 private:
   bool				init_background();

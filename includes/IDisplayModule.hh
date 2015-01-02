@@ -21,7 +21,36 @@ public:
   virtual int                   dispScore(int eaten_fruits) = 0;
   virtual int			end_screen() = 0;
   virtual bool			stop() = 0;
-
   virtual int			getX() const = 0;
   virtual int			getY() const = 0;
+};
+
+class ADisplayModule : public IDisplayModule
+{
+public:
+  ADisplayModule(const std::string &name) :
+    _name(name)
+    {}
+  ~ADisplayModule()
+    {}
+
+  std::string const &	getName() const
+    {
+      return _name;
+    }
+
+  int			getX() const
+    {
+      return _x;
+    }
+
+  int			getY() const
+    {
+      return _y;
+    }
+
+protected:
+  const std::string _name;
+  int _x;
+  int _y;
 };

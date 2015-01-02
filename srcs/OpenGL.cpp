@@ -20,13 +20,8 @@ extern "C" IDisplayModule	*entry_point()
 }
 
 OpenGLModule::OpenGLModule() :
-  _name("lib_nibbler_OpenGL.so")
+  ADisplayModule("lib_nibbler_OpenGL.so")
 { }
-
-std::string const & OpenGLModule::getName() const
-{
-  return _name;
-}
 
 void	OpenGLModule::init_colors()
 {
@@ -206,14 +201,4 @@ bool	OpenGLModule::stop()
 {
   SDL_Quit();
   return true;
-}
-
-int	OpenGLModule::getX() const
-{
-  return _x;
-}
-
-int	OpenGLModule::getY() const
-{
-  return _y;
 }

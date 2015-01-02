@@ -7,9 +7,9 @@ LibSwitcher::LibSwitcher()
 
 void	LibSwitcher::init_libs()
 {
-  _libs.push_front("lib_nibbler_Ncurses.so");
-  _libs.push_front("lib_nibbler_SDL.so");
-  _libs.push_front("lib_nibbler_OpenGL.so");
+  _libs.push_front("./libs/lib_nibbler_Ncurses.so");
+  _libs.push_front("./libs/lib_nibbler_SDL.so");
+  _libs.push_front("./libs/lib_nibbler_OpenGL.so");
 }
 
 IDisplayModule	*LibSwitcher::load(const std::string &name)

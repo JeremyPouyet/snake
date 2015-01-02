@@ -6,13 +6,8 @@ extern "C" IDisplayModule	*entry_point()
 }
 
 SdlModule::SdlModule() :
-  _name("lib_nibbler_SDL.so")
+  ADisplayModule("lib_nibbler_SDL.so")
 { }
-
-std::string const & SdlModule::getName() const
-{
-  return _name;
-}
 
 bool		SdlModule::init(int x, int y)
 {
@@ -244,14 +239,4 @@ int	SdlModule::end_screen()
       k = game::K_REPLAY;
   }
   return (k == game::K_REPLAY);
-}
-
-int	SdlModule::getX() const
-{
-  return _x;
-}
-
-int	SdlModule::getY() const
-{
-  return _y;
 }
