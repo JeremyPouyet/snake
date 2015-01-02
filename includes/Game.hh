@@ -18,26 +18,20 @@
 namespace	game
 {
   enum		keys
-    {
-      NAK,
-      K_LEFT,
-      K_RIGHT,
-      K_QUIT,
-      K_PAUSE,
-      K_REPLAY,
-      K_SWITCH,
-      K_PLUS,
-      K_MINUS
-    };
+  {
+    NAK = 0,	K_LEFT,
+    K_RIGHT,	K_QUIT,
+    K_PAUSE,	K_REPLAY,
+    K_SWITCH,	K_PLUS,
+    K_MINUS
+  };
 
   enum		direction
-    {
-      NAD,
-      D_RIGHT,
-      D_UP,
-      D_LEFT,
-      D_DOWN
-    };
+  {
+    NAD = 0,	D_RIGHT,
+    D_UP,	D_LEFT,
+    D_DOWN
+  };
 
   struct	position
   {
@@ -58,9 +52,9 @@ namespace	game
   public:
     snake();
     int			init(const std::string &x, const std::string &y);
-    int			finish(const keys &k);
-    void		action(const keys &k);
-    const int		&getEatenFruits() const;
+    bool		finish(keys k);
+    void		action(keys k);
+    int			getEatenFruits() const;
     direction		getDirection() const;
     void		reload();
     void		changeSpeed(int val);
@@ -73,25 +67,21 @@ namespace	game
     int			getSpeed() const;
     ~snake() {}
   private:
-    void		init_left();
-    void		init_right();
-    int			is_snake(const int &x, const int &y) const;
-    int			is_wall(const int &x, const int &y) const;
-    int			is_fruit(const int &x, const int &y) const;
+    bool		is_snake(int x, int y) const;
+    bool		is_wall(int x, int y) const;
+    bool		is_fruit(int x, int y) const;
     void		generate_fruit();
     void		generate_wall();
     void                generatePos();
-    void		move(const direction &d);
+    void		move(direction d);
 
-    std::list<position>	snake_pos;
-    position		fruit;
-    std::list<position>	wall_pos;
-    int			Xmax;
-    int			Ymax;
-    direction		dir;
-    std::map<direction, direction> left;
-    std::map<direction, direction> right;
-    int			eaten_fruits;
-    int			speed;
+    std::list<position>	_snake_pos;
+    position		_fruit;
+    std::list<position>	_wall_pos;
+    int			_Xmax;
+    int			_Ymax;
+    direction		_dir;
+    int			_eaten_fruits;
+    int			_speed;
   };
 }

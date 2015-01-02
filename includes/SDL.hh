@@ -15,36 +15,36 @@ class SdlModule : public IDisplayModule
 {
 public:
   SdlModule();
-  virtual ~SdlModule() {}
-  virtual std::string const &	getName() const;
-  virtual int			init(const int &x, const int &y);
-  virtual int			stop();
-  virtual void			refresh(pos_list snake, pos fruit, pos_list walls, const int &eaten_fruits, const game::direction &dir);
-  virtual void			pause();
-  virtual int			end_screen();
-  virtual game::keys		play();
-  virtual int			dispScore(const int &eaten_fruits);
+  ~SdlModule() {}
+  std::string const &	getName() const;
+  bool			init(int x, int y);
+  bool			stop();
+  void			refresh(const pos_list &snake, const pos &fruit, const pos_list &walls, int eaten_fruits, game::direction dir);
+  void			pause();
+  int			end_screen();
+  game::keys		play();
+  int			dispScore(int eaten_fruits);
 
-  virtual int			getX() const;
-  virtual int			getY() const;
+  int			getX() const;
+  int			getY() const;
 
 private:
-  int				init_background();
-  void				dispHead(SDL_Rect &position, const game::direction &dir);
+  bool				init_background();
+  void				dispHead(SDL_Rect &position, game::direction dir);
   void				init_keys();
   int				loadImage();
 
-  std::string			name;
-  int				x;
-  int				y;
-  SDL_Surface			*screen;
-  SDL_Surface			*background;
-  SDL_Surface			*grass;
-  SDL_Surface			*snake;
-  SDL_Surface			*sida;
-  SDL_Surface			*fruit;
-  SDL_Surface			*game_over;
-  SDL_Surface			*head;
-  std::map<int, game::keys>	key_map;
+  std::string			_name;
+  int				_x;
+  int				_y;
+  SDL_Surface			*_screen;
+  SDL_Surface			*_background;
+  SDL_Surface			*_grass;
+  SDL_Surface			*_snake;
+  SDL_Surface			*_sida;
+  SDL_Surface			*_fruit;
+  SDL_Surface			*_game_over;
+  SDL_Surface			*_head;
+  std::map<int, game::keys>	_key_map;
 
 };

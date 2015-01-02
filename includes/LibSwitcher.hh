@@ -9,14 +9,14 @@ class LibSwitcher
 {
 public:
   LibSwitcher();
-  ~LibSwitcher();
+  ~LibSwitcher() {}
   IDisplayModule	*load(const std::string &name);
   IDisplayModule	*change(IDisplayModule *mod);
   void			stop(IDisplayModule *mod);
 private:
 
-  std::list<std::string>	libs;
-  DLLoader	loader;
+  std::list<std::string>	_libs;
+  DLLoader			_loader;
 
   void	init_libs();
 };

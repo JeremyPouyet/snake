@@ -8,12 +8,12 @@
 class DLLoader
 {
 public:
-  typedef IDisplayModule *(*entry)(void);
+  typedef IDisplayModule *(*entry)();
   DLLoader();
   int	init(const std::string &name);
   IDisplayModule *getInstance();
   ~DLLoader();
 private:
-  std::string		name;
-  void			*entry_point;
+  std::string	_name;
+  void		*_entry_point;
 };

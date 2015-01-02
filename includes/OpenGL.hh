@@ -35,31 +35,31 @@ public:
   }			t_color;
 
   OpenGLModule();
-  virtual ~OpenGLModule() {}
-  virtual std::string const &	getName() const;
-  virtual int			init(const int &x, const int &y);
-  virtual game::keys		play();
-  virtual void			refresh(pos_list snake, pos fruit, pos_list walls, const int &eaten_fruits, const game::direction &dir);
-  virtual void			pause();
-  virtual int                   dispScore(const int &eaten_fruits);
-  virtual int			end_screen();
-  virtual int			stop();
-  virtual int			getX() const;
-  virtual int			getY() const;
+  ~OpenGLModule() {}
+  std::string const &	getName() const;
+  bool			init(int x, int y);
+  game::keys		play();
+  void			refresh(const pos_list &snake, const pos &fruit, const pos_list &walls, int eaten_fruits, game::direction dir);
+  void			pause();
+  int                   dispScore(int eaten_fruits);
+  int			end_screen();
+  bool			stop();
+  int			getX() const;
+  int			getY() const;
 private:
 
-  int x;
-  int y;
-  std::string			name;
-  SDL_Surface			*game_over;
-  SDL_Surface			*screen;
-  std::map<c_name, t_color>	colors;
-  std::map<int, game::keys>	key_map;
-  int				fruits_eaten;
+  int _x;
+  int _y;
+  std::string			_name;
+  SDL_Surface			*_game_over;
+  SDL_Surface			*_screen;
+  std::map<c_name, t_color>	_colors;
+  std::map<int, game::keys>	_key_map;
+  int				_fruits_eaten;
 
   void	init_colors();
   void	init_keys();
-  void	DrawSquare(const double &width, const double &height, c_name n1, c_name n2);
-  void	DrawMap(const double &width, const double &height);
+  void	DrawSquare(double width, double height, c_name n1, c_name n2);
+  void	DrawMap(double width, double height);
 
 };

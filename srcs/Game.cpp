@@ -1,218 +1,199 @@
 #include "Game.hh"
 
-static game::move          aod[] =
-  {
-    {game::D_RIGHT, 1, 0},
-    {game::D_UP, 0, -1},
-    {game::D_LEFT, -1, 0},
-    {game::D_DOWN, 0, 1},
-    {game::NAD, game::NAD, game::NAD}
-  };
-
-game::position::position(int x, int y) : x(x), y(y)
+static const game::move          aod[] =
 {
+  {game::D_RIGHT, 1, 0},
+  {game::D_UP, 0, -1},
+  {game::D_LEFT, -1, 0},
+  {game::D_DOWN, 0, 1},
+  {game::NAD, game::NAD, game::NAD}
+};
 
-}
-
-game::snake::snake()
-  : dir(game::D_RIGHT), eaten_fruits(0), speed(START_SPEED)
+static std::map<game::direction, game::direction> left =
 {
+  {game::direction::D_RIGHT, game::direction::D_UP},
+  {game::direction::D_UP, game::direction::D_LEFT},
+  {game::direction::D_LEFT, game::direction::D_DOWN},
+  {game::direction::D_DOWN, game::direction::D_RIGHT}
+};
 
-}
+static std::map<game::direction, game::direction> right =
+{
+  {game::direction::D_RIGHT, game::direction::D_DOWN},
+  {game::direction::D_UP, game::direction::D_RIGHT},
+  {game::direction::D_LEFT, game::direction::D_UP},
+  {game::direction::D_DOWN, game::direction::D_LEFT}
+};
+
+game::position::position(int x, int y) :
+  x(x), y(y)
+{ }
+
+game::snake::snake() :
+  _dir(game::D_RIGHT), _eaten_fruits(0), _speed(START_SPEED)
+{ }
 
 /*
 ** initialization functions
 */
-
-void			game::snake::init_left()
-{
-  this->left[D_RIGHT]	= D_UP;
-  this->left[D_UP]	= D_LEFT;
-  this->left[D_LEFT]	= D_DOWN;
-  this->left[D_DOWN]	= D_RIGHT;
-}
-
-void			game::snake::init_right()
-{
-  this->right[D_RIGHT]	= D_DOWN;
-  this->right[D_UP]	= D_RIGHT;
-  this->right[D_LEFT]	= D_UP;
-  this->right[D_DOWN]	= D_LEFT;
-}
 
 int			game::snake::init(const std::string &x, const std::string &y)
 {
   std::istringstream	convert;
 
   convert.str(x);
-  convert >> this->Xmax;
+  convert >> _Xmax;
   convert.clear();
   convert.str(y);
-  convert >> this->Ymax;
-  if (this->Xmax > MAX_X || this->Ymax > MAX_Y)
+  convert >> _Ymax;
+  if (_Xmax > MAX_X || _Ymax > MAX_Y)
     {
       std::cerr << "Asked map is too big (Max : 48 * 26)" << std::endl;
       return 0;
     }
-  if (this->Xmax < MIN_Y || this->Ymax < MIN_Y)
+  if (_Xmax < MIN_Y || _Ymax < MIN_Y)
     {
       std::cerr << "Asked map is too short (Min : 15 * 15)" << std::endl;
       return 0;
     }
-  this->generatePos();
+  generatePos();
   srand(time(NULL));
-  this->generate_fruit();
-  this->init_left();
-  this->init_right();
+  generate_fruit();
   return 1;
 }
 
 void			game::snake::generatePos()
 {
-  for (unsigned int i = 0; i < 4; i++)
+  for (int i = 0; i < 4; i++)
     {
-      position p((this->Xmax / 2) + i - 1, this->Ymax / 2);
-      this->snake_pos.push_front(p);
+      position p((_Xmax / 2) + i - 1, _Ymax / 2);
+      _snake_pos.push_front(p);
     }
 }
 
 void			game::snake::reload()
 {
-  this->snake_pos.clear();
-  this->wall_pos.clear();
-  this->eaten_fruits = 0;
-  this->speed = START_SPEED;
-  this->dir = D_RIGHT;
-  this->generatePos();
-  this->generate_fruit();
+  _snake_pos.clear();
+  _wall_pos.clear();
+  _eaten_fruits = 0;
+  _speed = START_SPEED;
+  _dir = D_RIGHT;
+  generatePos();
+  generate_fruit();
 }
 
 /*
 ** check functions
 */
 
-int	game::snake::is_snake(const int &x, const int &y) const
+bool	game::snake::is_snake(int x, int y) const
 {
-  std::list<game::position>::const_iterator	it;
-
-  for (it = snake_pos.begin(); it != snake_pos.end(); it++)
+  for (auto it = _snake_pos.begin(); it != _snake_pos.end(); it++)
     if (x == (*it).x && y == (*it).y)
-      return 1;
-  return 0;
+      return true;
+  return false;
 }
 
-int	game::snake::is_wall(const int &x, const int &y) const
+bool	game::snake::is_wall(int x, int y) const
 {
-  std::list<game::position>::const_iterator	it;
-
-  for (it = wall_pos.begin(); it != wall_pos.end(); it++)
+  for (auto it = _wall_pos.begin(); it != _wall_pos.end(); it++)
     if (x == (*it).x && y == (*it).y)
-      return 1;
-  return 0;
+      return true;
+  return false;
 }
 
-int	game::snake::is_fruit(const int &x, const int &y) const
+bool	game::snake::is_fruit(int x, int y) const
 {
-  return (x == this->fruit.x && y == this->fruit.y);
+  return (x == _fruit.x && y == _fruit.y);
 }
 
 /*
 ** generation functions
 */
 
-
 void		game::snake::generate_fruit()
 {
-  int		not_find = 1;
-
-  while (not_find)
-    {
-      this->fruit.x = rand() % this->Xmax;
-      this->fruit.y = rand() % this->Ymax;
-      not_find = (this->is_snake(this->fruit.x, this->fruit.y) ||
-		  this->is_wall(this->fruit.x, this->fruit.y));
-    }
+  do
+  {
+    _fruit.x = rand() % _Xmax;
+    _fruit.y = rand() % _Ymax;
+  } while (is_snake(_fruit.x, _fruit.y) || is_wall(_fruit.x, _fruit.y));
 }
 
 void		game::snake::generate_wall()
 {
-  int		not_find = 1;
   position	p;
 
-  while (not_find)
-    {
-      p.x = rand() % this->Xmax;
-      p.y = rand() % this->Ymax;
-      not_find = (this->is_snake(p.x, p.y) ||
-		  this->is_fruit(p.x, p.y));
-    }
-  this->wall_pos.push_back(p);
+  do
+  {
+    p.x = rand() % _Xmax;
+    p.y = rand() % _Ymax;
+  } while (is_snake(p.x, p.y) || is_fruit(p.x, p.y));
+  _wall_pos.push_back(p);
 }
 
 /*
 ** game logic functions
 */
 
-int	game::snake::finish(const keys &k)
+bool	game::snake::finish(keys k)
 {
-  position p = this->snake_pos.front();
-  std::list<game::position>::const_iterator	it;
+  position p = _snake_pos.front();
 
-  if (p.x < 0 || p.x >= this->Xmax || p.y < 0 || p.y >= this->Ymax)
-    return 1;
-  this->snake_pos.pop_front();
-  if (this->is_snake(p.x, p.y))
-    return 1;
-  this->snake_pos.push_front(p);
-  return (this->is_wall(p.x, p.y) || k == K_QUIT);
+  if (p.x < 0 || p.x >= _Xmax || p.y < 0 || p.y >= _Ymax)
+    return true;
+  _snake_pos.pop_front();
+  if (is_snake(p.x, p.y))
+    return true;
+  _snake_pos.push_front(p);
+  return (is_wall(p.x, p.y) || k == K_QUIT);
 }
 
-void	game::snake::move(const game::direction &d)
+void	game::snake::move(game::direction d)
 {
-  position	f = this->snake_pos.front();
-  position	p;
+  position	p, f = _snake_pos.front();
   game::move	m;
 
-  for (unsigned int i = 0; aod[i].dir != NAD; i++)
+  for (int i = 0; aod[i].dir != NAD; i++)
     if (aod[i].dir == d)
       {
-	this->dir = aod[i].dir;
+	_dir = aod[i].dir;
 	m = aod[i];
       }
   p.x = f.x += m.x;
   p.y = f.y += m.y;
-  this->snake_pos.push_front(p);
-  if (this->is_fruit(p.x, p.y))
+  _snake_pos.push_front(p);
+  if (is_fruit(p.x, p.y))
     {
-      this->generate_fruit();
-      if (++this->eaten_fruits % 3 == 0)
-	this->generate_wall();
+      generate_fruit();
+      if (++_eaten_fruits % 3 == 0)
+	generate_wall();
     }
   else
-    this->snake_pos.pop_back();
+    _snake_pos.pop_back();
 }
 
-void	game::snake::action(const keys &k)
+void	game::snake::action(keys k)
 {
   if (k == K_LEFT)
-    this->move(this->left[this->dir]);
+    move(left[_dir]);
   else if (k == K_RIGHT)
-    this->move(this->right[this->dir]);
+    move(right[_dir]);
   else if (k == NAK)
-    this->move(this->dir);
+    move(_dir);
   else if (k == K_MINUS)
-    this->changeSpeed(-1);
+    changeSpeed(-1);
   else if (k == K_PLUS)
-    this->changeSpeed(1);
+    changeSpeed(1);
 }
 
 void	game::snake::changeSpeed(int val)
 {
-  this->speed += val;
-  if (this->speed < 2)
-    this->speed = 2;
-  else if (this->speed > 15)
-    this->speed = 15;
+  _speed += val;
+  if (_speed < 2)
+    _speed = 2;
+  else if (_speed > 15)
+    _speed = 15;
 }
 
 /*
@@ -221,40 +202,40 @@ void	game::snake::changeSpeed(int val)
 
 int				game::snake::getXmax() const
 {
-  return this->Xmax;
+  return _Xmax;
 }
 
 int				game::snake::getYmax() const
 {
-  return this->Ymax;
+  return _Ymax;
 }
 
 std::list<game::position>	game::snake::get_snake_pos() const
 {
-  return this->snake_pos;
+  return _snake_pos;
 }
 
 game::position			game::snake::get_fruit() const
 {
-  return this->fruit;
+  return _fruit;
 }
 
 std::list<game::position>	game::snake::get_walls() const
 {
-  return this->wall_pos;
+  return _wall_pos;
 }
 
-const int			&game::snake::getEatenFruits() const
+int	game::snake::getEatenFruits() const
 {
-  return this->eaten_fruits;
+  return _eaten_fruits;
 }
 
 game::direction			game::snake::getDirection() const
 {
-  return this->dir;
+  return _dir;
 }
 
 int				game::snake::getSpeed() const
 {
-  return (CLOCKS_PER_SEC / this->speed);
+  return (CLOCKS_PER_SEC / _speed);
 }

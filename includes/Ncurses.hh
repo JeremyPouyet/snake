@@ -17,30 +17,30 @@ class NcursesModule : public IDisplayModule
 {
 public:
   NcursesModule();
-  virtual ~NcursesModule() {}
-  virtual std::string const & getName() const;
-  virtual int init(const int &x, const int &y);
-  virtual game::keys            play();
-  virtual void                  refresh(pos_list snake, pos fruit, pos_list walls, const int &eaten_fruits, const game::direction &dir);
-  virtual void			pause();
-  virtual int			dispScore(const int &eaten_fruits);
-  virtual int			end_screen();
-  virtual int			stop();
-  virtual int			getX() const;
-  virtual int			getY() const;
+  ~NcursesModule() {}
+  std::string const &	getName() const;
+  bool			init(int x, int y);
+  game::keys            play();
+  void                  refresh(const pos_list &snake, const pos &fruit, const pos_list &walls, int eaten_fruits, game::direction dir);
+  void			pause();
+  int			dispScore(int eaten_fruits);
+  int			end_screen();
+  bool			stop();
+  int			getX() const;
+  int			getY() const;
 private:
   int     dispSnake(pos_list snake) const;
   int     dispFruits(const game::position &fruit) const;
-  int     dispWalls(pos_list walls) const;
+  int     dispWalls(const pos_list &walls) const;
   void	  init_keys();
 
 private:
-  int x;
-  int y;
-  std::map<int, game::keys> key_map;
-  std::string   name;
-  WINDOW *screen;
-  WINDOW *menu;
-  int	height;
-  int	width;
+  int _x;
+  int _y;
+  std::map<int, game::keys> _key_map;
+  std::string   _name;
+  WINDOW *_screen;
+  WINDOW *_menu;
+  int	_height;
+  int	_width;
 };
