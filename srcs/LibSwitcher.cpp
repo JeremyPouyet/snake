@@ -30,12 +30,13 @@ IDisplayModule		*LibSwitcher::change(IDisplayModule *mod)
     _libs.push_back(_libs.front());
     _libs.pop_front();
   }
+  int x = mod->getX(), y = mod->getY();
   stop(mod);
   _loader.init(_libs.front());
   if (!(m = _loader.getInstance()))
-    return (NULL);
-  if (!m->init(mod->getX(), mod->getY()))
-    return (NULL);
+    return NULL;
+  if (!m->init(x, y))
+    return NULL;
   return m;
 }
 
