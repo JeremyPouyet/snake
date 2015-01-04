@@ -57,12 +57,12 @@ bool		SdlModule::init(int x, int y)
 
 void	SdlModule::init_keys()
 {
-  _key_map[SDLK_LEFT] = game::K_LEFT;
-  _key_map[SDLK_RIGHT] = game::K_RIGHT;
-  _key_map[SDLK_p] = game::K_PAUSE;
-  _key_map[SDLK_s] = game::K_SWITCH;
-  _key_map[SDLK_KP_PLUS] = game::K_PLUS;
-  _key_map[SDLK_KP_MINUS] = game::K_MINUS;
+  _key_map[SDLK_LEFT] = K_LEFT;
+  _key_map[SDLK_RIGHT] = K_RIGHT;
+  _key_map[SDLK_p] = K_PAUSE;
+  _key_map[SDLK_s] = K_SWITCH;
+  _key_map[SDLK_KP_PLUS] = K_PLUS;
+  _key_map[SDLK_KP_MINUS] = K_MINUS;
 }
 
 bool	SdlModule::stop()
@@ -78,18 +78,18 @@ bool	SdlModule::stop()
   return true;
 }
 
-game::keys	SdlModule::play()
+Keys	SdlModule::play()
 {
   SDL_Event	event;
 
   while (SDL_PollEvent(&event))
   {
     if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
-      return game::K_QUIT;
+      return K_QUIT;
     if (event.type == SDL_KEYDOWN)
       return _key_map[event.key.keysym.sym];
   }
-  return game::NAK;
+  return NAK;
 }
 
 bool		SdlModule::init_background()
@@ -113,7 +113,7 @@ bool		SdlModule::init_background()
   return true;
 }
 
-void		SdlModule::refresh(const pos_list &snake, const pos &fruit, const pos_list &walls, int eaten_fruits, game::direction dir)
+void		SdlModule::refresh(const pos_list &snake, const pos &fruit, const pos_list &walls, int eaten_fruits, Direction dir)
 {
   SDL_Rect	position;
 
@@ -143,16 +143,16 @@ void		SdlModule::refresh(const pos_list &snake, const pos &fruit, const pos_list
   SDL_Flip(_screen);
 }
 
-void	SdlModule::dispHead(SDL_Rect &position, game::direction dir)
+void	SdlModule::dispHead(SDL_Rect &position, Direction dir)
 {
   std::string	load;
-
-  std::map<game::direction, std::string>	display;
-  display[game::D_RIGHT] = "./SDL_IMG/head_right.png";
-  display[game::D_LEFT] = "./SDL_IMG/head_left.png";
-  display[game::D_UP] = "./SDL_IMG/head_up.png";
-  display[game::D_DOWN] = "./SDL_IMG/head_down.png";
-  for (auto it=display.begin(); it != display.end(); ++it)
+  std::map<Direction, std::string>	display = {
+    {D_RIGHT, "./SDL_IMG/head_right.png"},
+    {D_LEFT, "./SDL_IMG/head_left.png"},
+    {D_UP, "./SDL_IMG/head_up.png"},
+    {D_DOWN, "./SDL_IMG/head_down.png"}
+  };
+  for (auto it = display.begin(); it != display.end(); ++it)
     if (it->first == dir)
       load = it->second;
   if (!(_head = IMG_Load(load.c_str())))
@@ -223,20 +223,20 @@ void	SdlModule::pause()
 int	SdlModule::end_screen()
 {
   SDL_Event	event;
-  game::keys	k = game::NAK;
+  Keys		k = NAK;
   SDL_Rect	position;
 
   position.x = ((_x * X_SPRITE) / 2) - (2 * X_SPRITE);
   position.y = ((_y * Y_SPRITE) / 2) - (2 * Y_SPRITE);
   SDL_BlitSurface(_game_over, NULL, _screen, &position);
   SDL_Flip(_screen);
-  while (k == game::NAK)
+  while (k == NAK)
   {
     SDL_WaitEvent(&event);
     if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_n || event.key.keysym.sym == SDLK_ESCAPE)
-      k = game::K_QUIT;
+      k = K_QUIT;
     else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_y)
-      k = game::K_REPLAY;
+      k = K_REPLAY;
   }
-  return (k == game::K_REPLAY);
+  return (k == K_REPLAY);
 }

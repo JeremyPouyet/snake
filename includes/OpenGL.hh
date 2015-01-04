@@ -7,7 +7,7 @@
 #include <GL/glu.h>
 #include <iostream>
 #include <map>
-#include "IDisplayModule.hh"
+#include "DisplayModule.hh"
 
 #define X_SQUARE 40
 #define Y_SQUARE 40
@@ -36,20 +36,20 @@ public:
 
   OpenGLModule();
   ~OpenGLModule() {}
-  bool			init(int x, int y);
-  game::keys		play();
-  void			refresh(const pos_list &snake, const pos &fruit, const pos_list &walls, int eaten_fruits, game::direction dir);
-  void			pause();
-  int                   dispScore(int eaten_fruits);
-  int			end_screen();
-  bool			stop();
+  bool	init(int x, int y);
+  Keys	play();
+  void	refresh(const pos_list &snake, const pos &fruit, const pos_list &walls, int eaten_fruits, Direction dir);
+  void	pause();
+  int   dispScore(int eaten_fruits);
+  int	end_screen();
+  bool	stop();
 private:
 
   std::string			_name;
   SDL_Surface			*_game_over;
   SDL_Surface			*_screen;
   std::map<c_name, t_color>	_colors;
-  std::map<int, game::keys>	_key_map;
+  std::map<int, Keys>		_key_map;
   int				_fruits_eaten;
 
   void	init_colors();

@@ -44,27 +44,27 @@ bool		NcursesModule::init(int x, int y)
 
 void	NcursesModule::init_keys()
 {
-  _key_map[KEY_LEFT] = game::K_LEFT;
-  _key_map[KEY_RIGHT] = game::K_RIGHT;
-  _key_map[KEY_PAUSE_MAJ] = game::K_PAUSE;
-  _key_map[KEY_PAUSE_MIN] = game::K_PAUSE;
-  _key_map[KEY_SWITCH_MAJ] = game::K_SWITCH;
-  _key_map[KEY_SWITCH_MIN] = game::K_SWITCH;
-  _key_map[KEY_PLUS] = game::K_PLUS;
-  _key_map[KEY_MINUS] = game::K_MINUS;
-  _key_map[KEY_ESC] = game::K_QUIT;
+  _key_map[KEY_LEFT] = K_LEFT;
+  _key_map[KEY_RIGHT] = K_RIGHT;
+  _key_map[KEY_PAUSE_MAJ] = K_PAUSE;
+  _key_map[KEY_PAUSE_MIN] = K_PAUSE;
+  _key_map[KEY_SWITCH_MAJ] = K_SWITCH;
+  _key_map[KEY_SWITCH_MIN] = K_SWITCH;
+  _key_map[KEY_PLUS] = K_PLUS;
+  _key_map[KEY_MINUS] = K_MINUS;
+  _key_map[KEY_ESC] = K_QUIT;
 }
 
-game::keys            NcursesModule::play()
+Keys	NcursesModule::play()
 {
   int	key;
 
   if ((key = getch()) == ERR)
-    return (game::keys)0;
+    return (Keys)0;
   return _key_map[key];
 }
 
-void    NcursesModule::refresh(const pos_list &snake, const pos &fruit, const pos_list &walls, int eaten_fruits, game::direction dir)
+void    NcursesModule::refresh(const pos_list &snake, const pos &fruit, const pos_list &walls, int eaten_fruits, Direction dir)
 {
   int	i, n;
 
@@ -107,7 +107,7 @@ int	NcursesModule::dispSnake(pos_list snake) const
   return 0;
 }
 
-int	NcursesModule::dispFruits(const game::position &fruit) const
+int	NcursesModule::dispFruits(const Position &fruit) const
 {
   if (wattron(_screen, COLOR_PAIR(2)) == ERR)
     return -1;
@@ -132,7 +132,7 @@ int	NcursesModule::dispWalls(const pos_list &walls) const
 
 void	NcursesModule::pause()
 {
-  int	key = 1;
+  int	key;
 
   if ((_menu = newwin(5, 25, ((LINES / 2) - (3 / 2)), ((COLS / 2) - (23 / 2)))) == NULL)
     return ;
@@ -140,12 +140,12 @@ void	NcursesModule::pause()
     return ;
   mvwprintw(_menu, 1, 9, " Pause ");
   mvwprintw(_menu, 3, 2, " Press P to continue ");
-  while (key != 80 && key != 112)
-    {
-      if (wrefresh(_menu) == ERR)
-	return ;
-      key = getch();
-    }
+  do
+  {
+    if (wrefresh(_menu) == ERR)
+      return ;
+    key = getch();
+  } while (key != 80 && key != 112);
   if (wclear(_menu) == ERR)
     return ;
   if (wrefresh(_menu) == ERR)
@@ -167,7 +167,7 @@ bool    NcursesModule::stop()
 
 int	NcursesModule::end_screen()
 {
-  int	key = 1;
+  int	key;
 
   if ((_menu = newwin(5, 15, ((LINES / 2) - (3 / 2)), ((COLS / 2) - (13 / 2)))) == NULL)
     return 0;
@@ -175,12 +175,12 @@ int	NcursesModule::end_screen()
     return 0;
   mvwprintw(_menu, 1, 2, " Game Over ");
   mvwprintw(_menu, 3, 2, "  Retry ? ");
-  while (key != 121 && key != 89 && key != 110 && key != 78 && key != 27)
-    {
-      if (wrefresh(_menu) == ERR)
-	return 0;
-      key = getch();
-    }
+  do
+  {
+    if (wrefresh(_menu) == ERR)
+      return 0;
+    key = getch();
+  } while (key != 121 && key != 89 && key != 110 && key != 78 && key != 27);
   if (key == 89 || key == 121)
     return !(delwin(_menu) == ERR);
   else if (key == 78 || key == 110 || key == 27)

@@ -3,7 +3,7 @@
 #include <dlfcn.h>
 #include <string>
 #include <iostream>
-#include "IDisplayModule.hh"
+#include "DisplayModule.hh"
 
 class DLLoader
 {

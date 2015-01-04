@@ -2,7 +2,7 @@
 
 #include <string>
 #include <list>
-#include "IDisplayModule.hh"
+#include "DisplayModule.hh"
 #include "DLLoader.hh"
 
 class LibSwitcher

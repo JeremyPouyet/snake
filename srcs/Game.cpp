@@ -1,43 +1,90 @@
 #include "Game.hh"
 
-static const game::move          aod[] =
+static const Move          aod[] =
 {
-  {game::D_RIGHT, 1, 0},
-  {game::D_UP, 0, -1},
-  {game::D_LEFT, -1, 0},
-  {game::D_DOWN, 0, 1},
-  {game::NAD, game::NAD, game::NAD}
+  {D_RIGHT, 1, 0},
+  {D_UP, 0, -1},
+  {D_LEFT, -1, 0},
+  {D_DOWN, 0, 1},
+  {NAD, NAD, NAD}
 };
 
-static std::map<game::direction, game::direction> left =
+static std::map<Direction, Direction> left =
 {
-  {game::direction::D_RIGHT, game::direction::D_UP},
-  {game::direction::D_UP, game::direction::D_LEFT},
-  {game::direction::D_LEFT, game::direction::D_DOWN},
-  {game::direction::D_DOWN, game::direction::D_RIGHT}
+  {D_RIGHT, D_UP},
+  {D_UP, D_LEFT},
+  {D_LEFT, D_DOWN},
+  {D_DOWN, D_RIGHT}
 };
 
-static std::map<game::direction, game::direction> right =
+static std::map<Direction, Direction> right =
 {
-  {game::direction::D_RIGHT, game::direction::D_DOWN},
-  {game::direction::D_UP, game::direction::D_RIGHT},
-  {game::direction::D_LEFT, game::direction::D_UP},
-  {game::direction::D_DOWN, game::direction::D_LEFT}
+  {D_RIGHT, D_DOWN},
+  {D_UP, D_RIGHT},
+  {D_LEFT, D_UP},
+  {D_DOWN, D_LEFT}
 };
 
-game::position::position(int x, int y) :
+Position::Position(int x, int y) :
   x(x), y(y)
 { }
 
-game::snake::snake() :
-  _dir(game::D_RIGHT), _eaten_fruits(0), _speed(START_SPEED)
-{ }
+snake::snake(char **av) :
+  _dir(D_RIGHT), _eaten_fruits(0), _speed(START_SPEED)
+{
+  if (!(_mod = _switcher.load(av[3])))
+  {
+    ;// return -1;
+  }
+  if (!init(av[1], av[2]))
+  {
+    ;//return (-1);
+  }
+  if (!_mod->init(_Xmax, _Ymax))
+  {
+    ;// return (-1);
+  }
+}
 
 /*
 ** initialization functions
 */
 
-int			game::snake::init(const std::string &x, const std::string &y)
+int		snake::play()
+{
+  Keys		key;
+  clock_t	init;
+  bool		replay;
+
+  do
+  {
+    do
+    {
+      _mod->refresh(_snake_pos, _fruit, _wall_pos, _eaten_fruits, _dir);
+      init = std::clock();
+      do
+	key = _mod->play();
+      while (key == NAK && (init - std::clock()) / getSpeed() > -1);
+      action(key);
+      if (key == K_PAUSE)
+	_mod->pause();
+      else if (key == K_SWITCH)
+	if (!(_mod = _switcher.change(_mod)))
+	  return -1;
+    } while (!finish(key));
+    replay = false;
+    if (key != K_QUIT)
+      if (_mod->end_screen() == 1)
+      {
+	replay = true;
+	reload();
+      }
+  } while (replay);
+  _switcher.stop(_mod);
+  return (0);
+}
+
+int			snake::init(const std::string &x, const std::string &y)
 {
   std::istringstream	convert;
 
@@ -62,16 +109,13 @@ int			game::snake::init(const std::string &x, const std::string &y)
   return 1;
 }
 
-void			game::snake::generatePos()
+void			snake::generatePos()
 {
-  for (int i = 0; i < 4; i++)
-    {
-      position p((_Xmax / 2) + i - 1, _Ymax / 2);
-      _snake_pos.push_front(p);
-    }
+  for (int i = 0; i < 3; i++)
+    _snake_pos.push_front({(_Xmax / 2) + i - 1, _Ymax / 2});
 }
 
-void			game::snake::reload()
+void			snake::reload()
 {
   _snake_pos.clear();
   _wall_pos.clear();
@@ -86,7 +130,7 @@ void			game::snake::reload()
 ** check functions
 */
 
-bool	game::snake::is_snake(int x, int y) const
+bool	snake::is_snake(int x, int y) const
 {
   for (auto it = _snake_pos.begin(); it != _snake_pos.end(); it++)
     if (x == (*it).x && y == (*it).y)
@@ -94,7 +138,7 @@ bool	game::snake::is_snake(int x, int y) const
   return false;
 }
 
-bool	game::snake::is_wall(int x, int y) const
+bool	snake::is_wall(int x, int y) const
 {
   for (auto it = _wall_pos.begin(); it != _wall_pos.end(); it++)
     if (x == (*it).x && y == (*it).y)
@@ -102,7 +146,7 @@ bool	game::snake::is_wall(int x, int y) const
   return false;
 }
 
-bool	game::snake::is_fruit(int x, int y) const
+bool	snake::is_fruit(int x, int y) const
 {
   return (x == _fruit.x && y == _fruit.y);
 }
@@ -111,7 +155,7 @@ bool	game::snake::is_fruit(int x, int y) const
 ** generation functions
 */
 
-void		game::snake::generate_fruit()
+void		snake::generate_fruit()
 {
   do
   {
@@ -120,9 +164,9 @@ void		game::snake::generate_fruit()
   } while (is_snake(_fruit.x, _fruit.y) || is_wall(_fruit.x, _fruit.y));
 }
 
-void		game::snake::generate_wall()
+void		snake::generate_wall()
 {
-  position	p;
+  Position	p;
 
   do
   {
@@ -136,9 +180,9 @@ void		game::snake::generate_wall()
 ** game logic functions
 */
 
-bool	game::snake::finish(keys k)
+bool	snake::finish(Keys k)
 {
-  position p = _snake_pos.front();
+  Position p = _snake_pos.front();
 
   if (p.x < 0 || p.x >= _Xmax || p.y < 0 || p.y >= _Ymax)
     return true;
@@ -149,10 +193,10 @@ bool	game::snake::finish(keys k)
   return (is_wall(p.x, p.y) || k == K_QUIT);
 }
 
-void	game::snake::move(game::direction d)
+void	snake::move(Direction d)
 {
-  position	p, f = _snake_pos.front();
-  game::move	m;
+  Position	p, f = _snake_pos.front();
+  Move	m;
 
   for (int i = 0; aod[i].dir != NAD; i++)
     if (aod[i].dir == d)
@@ -173,21 +217,23 @@ void	game::snake::move(game::direction d)
     _snake_pos.pop_back();
 }
 
-void	game::snake::action(keys k)
+void	snake::action(Keys k)
 {
   if (k == K_LEFT)
     move(left[_dir]);
   else if (k == K_RIGHT)
     move(right[_dir]);
-  else if (k == NAK)
+  else
+  {
+    if (k == K_MINUS)
+      changeSpeed(-1);
+    else if (k == K_PLUS)
+      changeSpeed(1);
     move(_dir);
-  else if (k == K_MINUS)
-    changeSpeed(-1);
-  else if (k == K_PLUS)
-    changeSpeed(1);
+  }
 }
 
-void	game::snake::changeSpeed(int val)
+void	snake::changeSpeed(int val)
 {
   _speed += val;
   if (_speed < 2)
@@ -200,42 +246,42 @@ void	game::snake::changeSpeed(int val)
 ** geters
 */
 
-int				game::snake::getXmax() const
+int				snake::getXmax() const
 {
   return _Xmax;
 }
 
-int				game::snake::getYmax() const
+int				snake::getYmax() const
 {
   return _Ymax;
 }
 
-std::list<game::position>	game::snake::get_snake_pos() const
+std::list<Position>	snake::get_snake_pos() const
 {
   return _snake_pos;
 }
 
-game::position			game::snake::get_fruit() const
+Position			snake::get_fruit() const
 {
   return _fruit;
 }
 
-std::list<game::position>	game::snake::get_walls() const
+std::list<Position>	snake::get_walls() const
 {
   return _wall_pos;
 }
 
-int	game::snake::getEatenFruits() const
+int	snake::getEatenFruits() const
 {
   return _eaten_fruits;
 }
 
-game::direction			game::snake::getDirection() const
+Direction			snake::getDirection() const
 {
   return _dir;
 }
 
-int				game::snake::getSpeed() const
+int				snake::getSpeed() const
 {
   return (CLOCKS_PER_SEC / _speed);
 }

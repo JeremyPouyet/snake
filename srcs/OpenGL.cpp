@@ -50,12 +50,12 @@ bool    OpenGLModule::init(int x, int y)
 
 void	OpenGLModule::init_keys()
 {
-  _key_map[SDLK_LEFT] = game::K_RIGHT;
-  _key_map[SDLK_RIGHT] = game::K_LEFT;
-  _key_map[SDLK_p] = game::K_PAUSE;
-  _key_map[SDLK_s] = game::K_SWITCH;
-  _key_map[SDLK_KP_PLUS] = game::K_PLUS;
-  _key_map[SDLK_KP_MINUS] = game::K_MINUS;
+  _key_map[SDLK_LEFT] = K_RIGHT;
+  _key_map[SDLK_RIGHT] = K_LEFT;
+  _key_map[SDLK_p] = K_PAUSE;
+  _key_map[SDLK_s] = K_SWITCH;
+  _key_map[SDLK_KP_PLUS] = K_PLUS;
+  _key_map[SDLK_KP_MINUS] = K_MINUS;
 }
 
 void		OpenGLModule::DrawSquare(double x, double y, c_name n1, c_name n2)
@@ -114,21 +114,21 @@ void		OpenGLModule::DrawMap(double x, double y)
   glEnd();
 }
 
-game::keys	OpenGLModule::play()
+Keys	OpenGLModule::play()
 {
   SDL_Event	event;
 
   while (SDL_PollEvent(&event))
     {
       if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
-	return game::K_QUIT;
+	return K_QUIT;
       if (event.type == SDL_KEYDOWN)
 	return _key_map[event.key.keysym.sym];
     }
-  return game::NAK;
+  return NAK;
 }
 
-void		OpenGLModule::refresh(const pos_list &snake, const pos &fruit, const pos_list &walls, int eaten_fruits, game::direction dir)
+void		OpenGLModule::refresh(const pos_list &snake, const pos &fruit, const pos_list &walls, int eaten_fruits, Direction dir)
 {
   (void)dir;
   int x, y;
@@ -183,18 +183,18 @@ void		OpenGLModule::pause()
 int		OpenGLModule::end_screen()
 {
   SDL_Event     event;
-  game::keys    k = game::NAK;
+  Keys		k = NAK;
 
   std::cout << "Game Over" << std::endl
 	    << "Retry ? (y/n)" << std::endl;
-  while (SDL_WaitEvent(&event) && k == game::NAK)
+  while (SDL_WaitEvent(&event) && k == NAK)
     {
       if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_n ||  event.key.keysym.sym == SDLK_ESCAPE)
-	k = game::K_QUIT;
+	k = K_QUIT;
       else if (event.key.keysym.sym == SDLK_y)
-	k = game::K_REPLAY;
+	k = K_REPLAY;
     }
-  return (k == game::K_REPLAY);
+  return (k == K_REPLAY);
 }
 
 bool	OpenGLModule::stop()
