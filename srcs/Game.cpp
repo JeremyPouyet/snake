@@ -9,7 +9,7 @@ static const Move          aod[] =
   {NAD, NAD, NAD}
 };
 
-static std::map<Direction, Direction> left =
+static const std::map<Direction, Direction> left =
 {
   {D_RIGHT, D_UP},
   {D_UP, D_LEFT},
@@ -17,7 +17,7 @@ static std::map<Direction, Direction> left =
   {D_DOWN, D_RIGHT}
 };
 
-static std::map<Direction, Direction> right =
+static const std::map<Direction, Direction> right =
 {
   {D_RIGHT, D_DOWN},
   {D_UP, D_RIGHT},
@@ -214,9 +214,9 @@ void	snake::move(Direction d)
 void	snake::action(Keys k)
 {
   if (k == K_LEFT)
-    move(left[_dir]);
+    move(left.at(_dir));
   else if (k == K_RIGHT)
-    move(right[_dir]);
+    move(right.at(_dir));
   else
   {
     if (k == K_MINUS)
