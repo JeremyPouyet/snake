@@ -7,6 +7,13 @@ int	main(int ac, char **av)
     std::cerr << "usage : ./nibller X Y lib" << std::endl;
     return -1;
   }
-  snake	game(av);
-  return game.play();
+  try {
+    snake	game(av);
+    return game.play();
+  }
+  catch (int e) {
+      std::cerr << "error while creating game" << std::endl;
+      return 1;
+  }
+  return 2;
 }

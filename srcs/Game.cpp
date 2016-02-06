@@ -33,17 +33,11 @@ snake::snake(char **av) :
   _dir(D_RIGHT), _eaten_fruits(0), _speed(START_SPEED)
 {
   if (!(_mod = _switcher.load(av[3])))
-  {
-    ;// return -1;
-  }
+      throw -1;
   if (!init(av[1], av[2]))
-  {
-    ;//return (-1);
-  }
+    throw -1;
   if (!_mod->init(_Xmax, _Ymax))
-  {
-    ;// return (-1);
-  }
+    throw -1;
 }
 
 /*
