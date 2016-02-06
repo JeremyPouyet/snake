@@ -67,6 +67,7 @@ void	SdlModule::init_keys()
 
 bool	SdlModule::stop()
 {
+  std::cout << "stop sdl" << std::endl;
   SDL_FreeSurface(_background);
   SDL_FreeSurface(_grass);
   SDL_FreeSurface(_snake);
@@ -170,7 +171,6 @@ int		SdlModule::dispScore(int eaten_fruits)
   SDL_Surface	*txt = NULL;
   SDL_Color	couleurNoire = {0, 0, 0, 0};
   SDL_Rect	position;
-
 
   if ((write = TTF_OpenFont("./ttf/game_over.ttf", 60)) == NULL)
     return (-1);
