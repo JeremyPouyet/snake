@@ -1,12 +1,12 @@
 snake
 =====
 
-C++ snake that support SDL, OPENGL and ncurses.
+C++ snake that supports SDL, OPENGL and ncurses.
 Eat fruits as long as you can !
 
 ### install / launch
 
-$> make && make clean
+$> make && make clean  
 $> ./nibbler MAP_SIZE_X MAP_SIZE_Y libs/LIBNAME
 
 ### play
