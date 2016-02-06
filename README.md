@@ -1,7 +1,7 @@
 snake
 =====
 
-C++ snake that support SDL, OPENGL and ncurses.
+C++ snake that supports SDL, OPENGL and ncurses.
 Eat fruits as long as you can !
 
 ### install / launch
