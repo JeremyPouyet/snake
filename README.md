@@ -6,8 +6,8 @@ Eat fruits as long as you can !
 
 ### install / launch
 
-$> make && make clean
-$> ./nibbler MAP_SIZE_X MAP_SIZE_Y libs/LIBNAME
+$> make && make clean  
+$> ./nibbler MAP_SIZE_X MAP_SIZE_Y libs/LIBNAME  
 
 ### install ncurses
 $> sudo apt-get install libncurses-dev
