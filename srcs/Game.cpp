@@ -98,7 +98,7 @@ int			snake::init(const std::string &x, const std::string &y)
       return 0;
     }
   generatePos();
-  srand(time(NULL));
+  std::srand(time(NULL));
   generate_fruit();
   return 1;
 }
@@ -126,16 +126,16 @@ void			snake::reload()
 
 bool	snake::is_snake(int x, int y) const
 {
-  for (auto it = _snake_pos.begin(); it != _snake_pos.end(); it++)
-    if (x == (*it).x && y == (*it).y)
+  for (auto it : _snake_pos)
+    if (x == it.x && y == it.y)
       return true;
   return false;
 }
 
 bool	snake::is_wall(int x, int y) const
 {
-  for (auto it = _wall_pos.begin(); it != _wall_pos.end(); it++)
-    if (x == (*it).x && y == (*it).y)
+  for (auto it : _wall_pos)
+    if (x == it.x && y == it.y)
       return true;
   return false;
 }
@@ -237,7 +237,7 @@ void	snake::changeSpeed(int val)
 }
 
 /*
-** geters
+** getters
 */
 
 int				snake::getXmax() const

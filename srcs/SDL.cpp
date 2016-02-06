@@ -133,10 +133,10 @@ void		SdlModule::refresh(const pos_list &snake, const pos &fruit, const pos_list
       else
 	SDL_BlitSurface(_snake, NULL, _screen, &position);
     }
-  for (auto i = walls.begin(); i != walls.end(); i++)
+  for (auto i : walls)
     {
-      position.x = (*i).x * X_SPRITE;
-      position.y = (*i).y * Y_SPRITE;
+      position.x = i.x * X_SPRITE;
+      position.y = i.y * Y_SPRITE;
       SDL_BlitSurface(_sida, NULL, _screen, &position);
     }
   if (dispScore(eaten_fruits) == -1)
@@ -147,15 +147,15 @@ void		SdlModule::refresh(const pos_list &snake, const pos &fruit, const pos_list
 void	SdlModule::dispHead(SDL_Rect &position, Direction dir)
 {
   std::string	load;
-  std::map<Direction, std::string>	display = {
+  const std::map<Direction, std::string>	display = {
     {D_RIGHT, "./SDL_IMG/head_right.png"},
     {D_LEFT, "./SDL_IMG/head_left.png"},
     {D_UP, "./SDL_IMG/head_up.png"},
     {D_DOWN, "./SDL_IMG/head_down.png"}
   };
-  for (auto it = display.begin(); it != display.end(); ++it)
-    if (it->first == dir)
-      load = it->second;
+  for (auto it : display)
+    if (it.first == dir)
+      load = it.second;
   if (!(_head = IMG_Load(load.c_str())))
     {
       std::cerr << "head can't be load" << std::endl;
