@@ -12,6 +12,9 @@ $> ./nibbler MAP_SIZE_X MAP_SIZE_Y libs/LIBNAME
 ### install ncurses
 $> sudo apt-get install libncurses-dev
 
+### install sdl  
+$> sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libsdl-ttf2.0-dev  
+
 ### play
 
 * left arrow : move left
